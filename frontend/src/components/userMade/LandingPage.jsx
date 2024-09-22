@@ -1,20 +1,58 @@
+import { Button } from "@/components/ui/button";
 import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "@/components/ui/avatar"
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 import {
-  HoverCard,
-  HoverCardContent,
-  HoverCardTrigger,
-} from "@/components/ui/hover-card"
+    Avatar,
+    AvatarFallback,
+    AvatarImage,
+  } from "@/components/ui/avatar"
 
-import { FaGithub } from "react-icons/fa";
-const Page2 = () => {
+
+const LandingPage = () => {
   return (
     <>
-    
-    <div className='flex flex-col items-center mt-[11vw]'> 
+    <div className='flex items-center flex-row gap-[1.5vw] pt-[3vw] w-[90%] mx-auto'>
+    <h1 className='text-[#3565EC] w-[70%] text-[5vw] font-[900] leading-[5vw]'>
+      Challenge your friend in <br />
+      <span className='text-yellow-500'>real-time battles.</span> <br />
+      Learn as you play with <br />
+      <span className='text-yellow-500'>AI-driven </span>quizzes.
+    </h1>
+    <img src="./images/battle.png" className='h-[70%] w-[25%]' alt="" />
+  </div>
+
+  <div className='w-[90%] pt-[2vw] mx-auto gap-[2vw] flex'>
+    <Button className='rounded-2xl font-semibold px-[3vw] text-[1.5vw] py-[1.5vw] bg-[#F47F2F] '>Start Battle</Button>
+    <Sheet>
+      <SheetTrigger asChild>
+        <Button className='rounded-2xl font-semibold px-[3vw] text-[1.5vw] py-[1.5vw] bg-[#F47F2F] '>How to Play</Button>
+      </SheetTrigger>
+      <SheetContent className='w-[80vw]'>
+        <SheetHeader>
+          <SheetTitle>How to Play?</SheetTitle>
+          <SheetDescription>
+            How to Play MindWars AI Quiz Battle:
+            {/* Description omitted for brevity */}
+          </SheetDescription>
+        </SheetHeader>
+        <SheetFooter>
+          <SheetClose asChild>
+            <Button type="submit">Close</Button>
+          </SheetClose>
+        </SheetFooter>
+      </SheetContent>
+    </Sheet>
+  </div>
+
+  <div className='flex flex-col items-center mt-[11vw]'> 
     <h1 className="text-[#3565EC] font-bold text-[3vw]">Tired of <span className='text-yellow-500'>Manual Quizzes?</span></h1>
     <p className='text-[1.2vw]'>Try automated AI generated quality quizzes to improve your performance with any topic, and have a quiz battle with your friend</p>
   </div>
@@ -22,15 +60,15 @@ const Page2 = () => {
 
     <div className="flex mt-[5vw] flex-row gap-[2.5vw] w-[90%] justify-center mx-auto max-w-screen h-[20vw]">
 
-        <div className="w-[24%] h-[100%] text-white flex flex-col gap-2 justify-center p-[1vw] text-center items-center bg-[#3764EF] rounded-3xl">
+        <div className="hover:scale-105 duration-100 transition-all ease-out w-[24%] h-[100%] text-white flex flex-col gap-2 justify-center p-[1vw] text-center items-center bg-[#3764EF] rounded-3xl">
             <h2 className="font-bold text-[1.5vw]">Challenge Your Friend for 1v1 Battle</h2>
             <p className="text-[1vw]">Engage in real-time quiz battles and see who comes out on top with unique, AI-crafted questions.</p>
         </div>
-        <div className="w-[24%] h-[100%] text-white flex flex-col gap-2 justify-center p-[1vw] text-center  bg-[#FE6376] rounded-3xl">
+        <div className="hover:scale-105 duration-100 transition-all ease-out w-[24%] h-[100%] text-white flex flex-col gap-2 justify-center p-[1vw] text-center  bg-[#FE6376] rounded-3xl">
         <h2 className="font-bold text-[1.5vw]">Analyze Your Answers and Performance  </h2>
         <p className="text-[1vw]">Get detailed feedback on your quiz answers and track your progress after every battle..</p>
         </div>
-        <div className="w-[24%] h-[100%] text-white flex flex-col gap-2 justify-center p-[1vw] text-center   bg-[#01DBAB] rounded-3xl">
+        <div className="hover:scale-105 duration-100 transition-all ease-out w-[24%] h-[100%] text-white flex flex-col gap-2 justify-center p-[1vw] text-center   bg-[#01DBAB] rounded-3xl">
         <h2 className="font-bold text-[1.5vw]">Personalized Learning Path</h2>
         <p className="text-[1vw]">Receive tailored learning recommendations based on your performance to boost your knowledge and skills.</p>
         </div>
@@ -86,49 +124,9 @@ const Page2 = () => {
       </div>
 
     </div>
-    <footer className="p-[5vw] bg-[#F2F3F3]  max-w-screen flex items-center justify-between h-[10vw]">
 
-          <div className="flex flex-col gap-3">
-          <div className="flex items-center gap-2">
-          <img src="./images/mindwars.png" className='h-[3vw]' alt="" />
-          <img className='h-[2vw]' src="https://see.fontimg.com/api/rf5/DGRW/MTNmYjZiN2U1NjRlNDM1MGE1OTgzOWRiZGFmMzgxNTIudHRm/TWluZFdhcnMgQWk/star-jedi.png?r=fs&h=81&w=1250&fg=0C0B0B&bg=FFFFFF&tb=1&s=65" alt="Star Wars fonts"/>
-          </div>
-          
-          <h2 className="text-black opacity-90">Copyright © 2024 - All rights reserved</h2>
-          </div>
-
-
-          <div className="flex flex-col gap-3">
-            <h2 className="font-bold text-[1.2vw]"> Creators</h2>
-            <div className="flex flex-col gap-1">
-            <div className="">
-              <HoverCard>
-              <HoverCardTrigger className="hover:underline flex gap-2 items-center"><FaGithub />Arun Chandra</HoverCardTrigger>
-              <HoverCardContent>
-              A creative thinker who loves coming up with solutions to tricky tech challenges
-              </HoverCardContent>
-            </HoverCard>
-
-            </div>
-            <div className="">
-            <HoverCard>
-              <HoverCardTrigger className="hover:underline flex gap-2 items-center"><FaGithub />Ashish Sah</HoverCardTrigger>
-              <HoverCardContent>
-              An explorer in the tech world who loves taking on challenges and learning along the way.
-              </HoverCardContent>
-            </HoverCard>
-
-            </div>
-            </div>
-
-          </div>
-
-
-
-      </footer>
-    </> 
-
+  </>
   )
 }
 
-export default Page2
+export default LandingPage

@@ -23,7 +23,7 @@ def signup():
     
     # Hash the password
     hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
-
+    
     # Insert the new user into the database
     mongo.db.users.insert_one({
         'username': username,
