@@ -5,13 +5,25 @@ const AuthContext = createContext();
 
 // Provider component
 export const AuthProvider = ({ children }) => {
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem('token')); // Check if token exists
+    const [username, setUsername] = useState(localStorage.getItem('username') || '');
 
-    const login = () => setIsAuthenticated(true);
-    const logout = () => setIsAuthenticated(false);
+    const login = (token, user) => {
+        localStorage.setItem('token', token); // Store token in localStorage
+        localStorage.setItem('username', user); // Store username in localStorage
+        setIsAuthenticated(true);
+        setUsername(user); // Update username state
+    };
+
+    const logout = () => {
+        localStorage.removeItem('token'); // Remove token from localStorage
+        localStorage.removeItem('username'); // Remove username from localStorage
+        setIsAuthenticated(false);
+        setUsername(''); // Reset username state
+    };
 
     return (
-        <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
+        <AuthContext.Provider value={{ isAuthenticated, login, logout, username }}>
             {children}
         </AuthContext.Provider>
     );
