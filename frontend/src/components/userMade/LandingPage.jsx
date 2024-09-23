@@ -14,9 +14,26 @@ import {
     AvatarFallback,
     AvatarImage,
   } from "@/components/ui/avatar"
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "@/AuthContext";
 
 
-const LandingPage = () => {
+
+const LandingPage = ({notify}) => {
+
+  const {isAuthenticated} = useAuth();
+  const navigate = useNavigate();
+
+
+  const handleBattlePage = ()=>{
+    if(isAuthenticated){
+      navigate('/battlepage');
+    }
+    else{
+      console.log('Not authenticated. Showing toast...');
+      notify();
+    }
+  }
   return (
     <>
     <div className='flex items-center flex-row gap-[1.5vw] pt-[3vw] w-[90%] mx-auto'>
@@ -30,7 +47,7 @@ const LandingPage = () => {
   </div>
 
   <div className='w-[90%] pt-[2vw] mx-auto gap-[2vw] flex'>
-    <Button className='rounded-2xl font-semibold px-[3vw] text-[1.5vw] py-[1.5vw] bg-[#F47F2F] '>Start Battle</Button>
+    <Button onClick ={handleBattlePage} className='rounded-2xl font-semibold px-[3vw] text-[1.5vw] py-[1.5vw] bg-[#F47F2F] '>Start Battle</Button>
     <Sheet>
       <SheetTrigger asChild>
         <Button className='rounded-2xl font-semibold px-[3vw] text-[1.5vw] py-[1.5vw] bg-[#F47F2F] '>How to Play</Button>

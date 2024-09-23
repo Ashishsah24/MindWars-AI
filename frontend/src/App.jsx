@@ -1,16 +1,21 @@
 import { useEffect, useState } from 'react';
 import './App.css';
-import LoginSignupModal from './components/modals/loginSignupModal';
 import axios from 'axios';
-
 import { useAuth } from './AuthContext'; // Adjust the path as necessary
-import Navbar from './components/userMade/navbar';
 
+import Navbar from './components/userMade/navbar'
 import Footer from './components/userMade/Footer';
+import CreateBattle from './components/userMade/CreateBattle';
 import LandingPage from './components/userMade/LandingPage';
-import { Routes, Route } from 'react-router-dom'; // No need for Router now
 import BattlePage from './components/userMade/BattlePage';
+import LoginSignupModal from './components/modals/loginSignupModal';
+import JoinBattle from './components/userMade/JoinBattle';
 
+import { Routes, Route, Navigate } from 'react-router-dom'; // No need for Router now
+import { Bounce, ToastContainer } from 'react-toastify';
+import { toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+import WaitingRoom from './components/userMade/WaitingRoom';
 const App = () => { 
   const { login, logout, isAuthenticated } = useAuth();
   const [identifier, setIdentifier] = useState('');
@@ -65,6 +70,21 @@ const App = () => {
         logout(); // Call the logout function from context
     }
   };
+  
+
+  
+  const notify = () => toast("Please login first to start a battle");
+
+
+  const PrivateRoute = ({ element, ...rest }) => {
+    if(!isAuthenticated){
+      return<Navigate to="/" />
+    }
+    return element ;
+  };
+
+
+  
 
   useEffect(() => {
     const storedUsername = localStorage.getItem('username');
@@ -77,6 +97,20 @@ const App = () => {
   return (
     <div className="main min-h-screen max-w-screen pt-[0.1px]">
       
+<ToastContainer
+position="bottom-right"
+autoClose={3000}
+hideProgressBar={false}
+newestOnTop={false}
+closeOnClick={false}
+rtl={false}
+pauseOnFocusLoss
+draggable
+pauseOnHover={false}
+theme="light"
+transition= {Bounce}
+/>
+
       <Navbar 
       isAuthenticated={isAuthenticated}
       toggleLoginModal={toggleLoginModal}
@@ -84,10 +118,18 @@ const App = () => {
       handleLogout={handleLogout}
       />
 
+
+      {/*  */}
           <Routes>
-          <Route path="/" element={<LandingPage />} />
-          <Route path="/battlepage" element={<BattlePage />} />
+          <Route path="/" element={<LandingPage notify={notify} />} />
+          <Route path="/battlepage" element={<PrivateRoute element={<BattlePage />} />} />
+          <Route path="/createbattle" element={<PrivateRoute element={<CreateBattle/>}/>}/>
+          <Route path="/joinbattle" element={<PrivateRoute element={<JoinBattle/>}/>}/>
+          <Route path="/waiting-room/:battle_id" element={<WaitingRoom />} />
         </Routes>
+
+      {/*  */}
+
 
     {loginValue && 
     <LoginSignupModal handleLogin={handleLogin} 

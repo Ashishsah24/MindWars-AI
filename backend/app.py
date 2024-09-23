@@ -4,7 +4,11 @@ from flask_cors import CORS
 import bcrypt
 import jwt
 import datetime
-
+from apscheduler.schedulers.background import BackgroundScheduler
+import atexit
+from bson import ObjectId
+import uuid
+from threading import Timer
 app = Flask(__name__)
 CORS(app)
 
@@ -45,7 +49,7 @@ def login():
         token = jwt.encode({
             'user_id': str(user['_id']),
             'username': user['username'],
-            'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=2)  # Token expires in 1 hour
+            'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=2)  
         }, SECRET_KEY, algorithm='HS256')
 
         return jsonify({"message": "Login successful", "token": token, "username": user['username']}), 200
@@ -66,6 +70,81 @@ def protected():
         return jsonify({"message": "Token has expired!"}), 401
     except jwt.InvalidTokenError:
         return jsonify({"message": "Invalid token!"}), 401
+
+@app.route('/api/create_battle', methods=['POST'])
+def create_battle():
+    # Get the data from the request
+    print("Battle function called!")
+    battle_data = request.json
+
+    # Extract individual fields from the request data
+    battle_name = battle_data.get('battleName')
+    battle_description = battle_data.get('battleDescription')
+    num_questions = battle_data.get('numQuestions')
+    time_limit = battle_data.get('timeLimit')
+    difficulty = battle_data.get('difficulty')
+    creator_username = battle_data.get('creatorUsername')  # Get the creator's username
+    # Validate the received data
+    if not battle_name or not battle_description or not num_questions or not time_limit:
+        return jsonify({"message": "Missing required fields"}), 400
+    
+    battle_id = str(uuid.uuid4())  # Create a unique random ID
+    # Create a battle object to be stored in the MongoDB
+    battle = {
+        'battleid': battle_id,
+        'battleName': battle_name,
+        'battleDescription': battle_description,
+        'numQuestions': num_questions,
+        'timeLimit': time_limit,
+        'difficulty': difficulty,
+        'created_at': datetime.datetime.utcnow(),
+        'creator_username' : creator_username,
+        'status': 'waiting_for_opponent',  # Initial status of the battle
+        'opponent_id': None  # No opponent yet
+    }
+    # Insert the battle object into the 'battles' collection
+    try:
+        # if mongo.db.battles.find_one({'battleid': battle_id}):
+            # return jsonify({"message": "Battle ID already exists"}), 400
+        
+        mongo.db.battles.insert_one(battle)
+        print(f"Inserted Battle: {battle}")  # Log the inserted battle
+         
+        Timer(300, discard_battle, [battle_id]).start()  # Discard the battle after 5 minutes
+    except Exception as e:
+        print("Insert failed:", e)
+        return jsonify({"message": "Failed to create battle"}), 500
+    # Return the battle ID in the response
+    return jsonify({
+        "message": "Battle created successfully",
+        "battle_id": battle_id
+    }), 201
+
+def discard_battle(battle_id):
+    result = mongo.db.battles.delete_one({'battleid': battle_id})
+    if result.deleted_count > 0:
+        print(f"Battle {battle_id} discarded due to timeout.")
+    else:
+        print(f"Battle {battle_id} not found or already discarded.")
+
+
+@app.route('/api/finish_battle/<battle_id>', methods=['POST'])
+def finish_battle(battle_id):
+    # Find the battle
+    battle = mongo.db.battles.find_one({'_id': ObjectId(battle_id)})
+    
+    if not battle:
+        return jsonify({"message": "Battle not found"}), 404
+
+    # Update the status to 'completed'
+    mongo.db.battles.update_one(
+        {'_id': ObjectId(battle_id)},
+        {'$set': {
+            'status': 'completed'
+        }}
+    )
+
+    return jsonify({"message": "Battle completed successfully"}), 200
 
 if __name__ == '__main__':
     app.run(debug=True)
