@@ -110,6 +110,8 @@ def create_battle():
         mongo.db.battles.insert_one(battle)
         print(f"Inserted Battle: {battle}")  # Log the inserted battle
          
+        # 30 for 30 seconds, 300 for 5 minutes
+        #  
         Timer(300, discard_battle, [battle_id]).start()  # Discard the battle after 5 minutes
     except Exception as e:
         print("Insert failed:", e)
@@ -126,6 +128,36 @@ def discard_battle(battle_id):
         print(f"Battle {battle_id} discarded due to timeout.")
     else:
         print(f"Battle {battle_id} not found or already discarded.")
+
+@app.route('/api/check_battle_status/<battle_id>', methods=['GET'])
+def check_battle_status(battle_id):
+    battle = mongo.db.battles.find_one({'battleid': battle_id})
+    
+    if not battle:
+        return jsonify({"message": "Battle not found", "status": "discarded"}), 404
+    
+    return jsonify({
+        "message": "Battle found",
+        "status": battle['status']
+    }), 200
+
+
+@app.route('/api/battles', methods=['GET'])
+def get_battles():
+    battles = mongo.db.battles.find()
+    battle_list = []
+    for battle in battles:
+        print(battle)
+        battle_list.append({
+            'username': battle.get('creator_username'),
+            'title': battle.get('battleName'),
+            'description': battle.get('battleDescription'),
+            'num_questions': battle.get('numQuestions'),
+            'time': battle.get('timeLimit') 
+        })
+
+    print(battle_list)
+    return jsonify(battle_list), 200
 
 
 @app.route('/api/finish_battle/<battle_id>', methods=['POST'])

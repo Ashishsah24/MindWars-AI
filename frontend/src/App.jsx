@@ -125,7 +125,7 @@ transition= {Bounce}
           <Route path="/battlepage" element={<PrivateRoute element={<BattlePage />} />} />
           <Route path="/createbattle" element={<PrivateRoute element={<CreateBattle/>}/>}/>
           <Route path="/joinbattle" element={<PrivateRoute element={<JoinBattle/>}/>}/>
-          <Route path="/waiting-room/:battle_id" element={<WaitingRoom />} />
+          <Route path="/waiting-room/:battleId" element={<WaitingRoom />} />
         </Routes>
 
       {/*  */}

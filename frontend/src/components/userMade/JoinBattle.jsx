@@ -1,7 +1,7 @@
 import { Label } from '@radix-ui/react-label';
 import { Input } from "@/components/ui/input"
-
-import React, { useState } from 'react'
+import { TbRefresh } from "react-icons/tb";
+import React, { useEffect, useState } from 'react'
 
 import {
     Card,
@@ -18,35 +18,59 @@ import { Button } from '../ui/button';
 import { BiArrowBack } from "react-icons/bi";
 import { useNavigate } from 'react-router-dom';
 import { IoTimerOutline } from "react-icons/io5";
+import axios from 'axios';
+
+import { Bounce, toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 const JoinBattle = () => {
 
-    const [battleName, setBattleName] = useState('');
-    const [battleTopic, setBattleTopic] = useState('Math');
-    const [numQuestions, setNumQuestions] = useState(5);
-    const [timeLimit, setTimeLimit] = useState(30);
-    const [difficulty, setDifficulty] = useState('Medium');
-
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        // Handle battle creation logic here
-        alert('Battle Created!');
-    };
-      
+    const [battles, setBattles] = useState([]);
     const navigate = useNavigate();
+    // Fetch battles from API
+    useEffect(() => {
+        const fetchBattles = async () => {
+            try {
+                const response = await axios.get('http://localhost:5000/api/battles');
+                setBattles(response.data);
+            } catch (error) {
+                console.error('Error fetching battles:', error);
+            }
+        };
 
-    const handleBackButton = ()=>{
-        navigate('/battlepage')    
+        fetchBattles();
+    }, []);
+    
+    const notify = () => toast("Page refreshed!");
+    const handleRefreshButton = async ()=>{
+        try {
+            const response = await axios.get('http://localhost:5000/api/battles');
+            setBattles(response.data);
+            notify();
+            navigate('/joinbattle')
+        } catch (error) {
+            console.error('Error fetching battles:', error);
+        }
     }
-
-    const handleFormSubmit = (e)=>{
-        e.preventDefault()
+    const handleBackButton = () => {
+        navigate('/battlepage');
     }
     return (
         // <h2 className="text-[4vw] font-bold text-[#3565EC]">Create a<span className='text-yellow-500'> Battle</span></h2>
         <div className="max-w-screen">
-
+                        <ToastContainer
+            position="bottom-left"
+            autoClose={3000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="light"
+            transition= {Bounce}
+            />
                 <div className='flex h-[42vw]'>
 
                     <div className='w-[50%] h-full relative'>
@@ -63,71 +87,48 @@ const JoinBattle = () => {
                         <Card className='w-[80%] py-[1vw] border-none drop-shadow-none m-5 '>
                             
                             <CardHeader>
+                                <div className='flex justify-between items-center'>
                                 <CardTitle className='text-[2vw]'>Active Battles to Join</CardTitle>
+                                <TbRefresh onClick={handleRefreshButton} className='text-[2vw] active:scale-[0.9] rounded-full hover:bg-gray-100 p-1' />
+                                </div>
                                 <CardDescription></CardDescription>
                             </CardHeader>   
                         <CardContent>
 
                                 {/* ek to yeh , no battles active */}
-                                <Card className='flex flex-col p-[1vw] mb-[1vw]'>
-                                
-                                <div className='flex justify-end'>
 
+                    {battles && battles.length > 0 ? (
+                        battles.map((battle, index) => (
+                            <Card key={index} className='flex flex-col p-[1vw] mb-[1vw]'>
+                                <div className='flex justify-end'>
                                     <div className='flex font-bold items-center justify-center'>
                                         <IoTimerOutline className='' />
-                                        <h2>Time</h2>
+                                        <h2>{battle.time || 'Time'}</h2>
                                     </div>
-
                                 </div>
                                 <div className='flex gap-[1vw] font-bold flex-row'>
-
-                                        <div className=''>
-                                                <img className='h-[5vw]' src='./images/username.png'></img>
-                                                <h2>@username</h2>
-                                        </div>
-
-                                        <div className=''>
-                                            <h2 className='text-[2vw]'>"Title of the Quiz"</h2>
-                                            <h2 className='text-[1.5vw]'>"Quiz Descritipon"</h2>
-                                            <h2 className='text-[1vw]'>No. of Questions: </h2>
-                                        </div>
-
-                                </div>
-                                <div className='flex justify-end'>
-                                        <Button className='bg-[#F47F2F] px-[1.5vw] py-[0.2vw] rounded-full '>Join</Button>
-                                </div>
-
-                                </Card>
-
-                                <Card className='flex flex-col p-[1vw] '>
-                                
-                                <div className='flex justify-end'>
-
-                                    <div className='flex font-bold items-center justify-center'>
-                                        <IoTimerOutline className='' />
-                                        <h2>Time</h2>
+                                    <div>
+                                        <img className='h-[5vw]' src='./images/username.png' alt='User Avatar' />
+                                        <h2>@{battle.username}</h2>
                                     </div>
-
-                                </div>
-                                <div className='flex gap-[1vw] font-bold flex-row'>
-
-                                        <div className=''>
-                                                <img className='h-[5vw]' src='./images/username.png'></img>
-                                                <h2>@username</h2>
-                                        </div>
-
-                                        <div className=''>
-                                            <h2 className='text-[2vw]'>"Title of the Quiz"</h2>
-                                            <h2 className='text-[1.5vw]'>"Quiz Descritipon"</h2>
-                                            <h2 className='text-[1vw]'>No. of Questions: </h2>
-                                        </div>
-
+                                    <div>
+                                        <h2 className='text-[2vw]'>{battle.title}</h2>
+                                        <h2 className='text-[1.5vw]'>{battle.description}</h2>
+                                        <h2 className='text-[1vw]'>No. of Questions: {battle.num_questions}</h2>
+                                    </div>
                                 </div>
                                 <div className='flex justify-end'>
-                                        <Button className='bg-[#F47F2F] px-[1.5vw] py-[0.2vw] rounded-full '>Join</Button>
+                                    <Button className='bg-[#F47F2F] px-[1.5vw] py-[0.2vw] rounded-full'>Join</Button>
                                 </div>
+                            </Card>
+                        ))
+                    ) : (
+                        <Card className='flex justify-center items-center'>
+                            <h2 className='text-[1vw]'>No Active Battles!</h2>
+                        </Card>
+                    )}
 
-                                </Card>
+                           
                         </CardContent>
                         </Card>
 

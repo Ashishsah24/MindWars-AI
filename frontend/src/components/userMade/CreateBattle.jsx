@@ -29,6 +29,7 @@ const CreateBattle = () => {
     const [timeLimit, setTimeLimit] = useState(30);
     const [difficulty, setDifficulty] = useState(1);
 
+
     const navigate = useNavigate();
 
     const handleBackButton = () => {
@@ -58,6 +59,8 @@ const CreateBattle = () => {
             });
             if (response.status === 201) {
                 alert('Battle created successfully!');
+                console.log(response.data.battle_id);
+
                 navigate(`/waiting-room/${response.data.battle_id}`);
             } else {
                 alert('hat bencho! Failed to create battle');
@@ -70,6 +73,7 @@ const CreateBattle = () => {
 
     return (
         <div className="max-w-screen">
+
             <div className='flex h-[42vw]'>
                 <div className='w-[50%] h-full relative'>
                     <div onClick={handleBackButton} className='p-4 active:scale-105 rounded-full transition-all hover:ease-in duration-150 hover:bg-gray-100 text-[2vw] absolute'>
