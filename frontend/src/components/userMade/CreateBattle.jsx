@@ -1,11 +1,10 @@
 import { Label } from '@radix-ui/react-label';
 import { Input } from "@/components/ui/input"
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     Card,
     CardContent,
     CardDescription,
-    CardFooter,
     CardHeader,
     CardTitle,
 } from "@/components/ui/card";
@@ -20,7 +19,8 @@ import { Textarea } from '../ui/textarea';
 import { Button } from '../ui/button';
 import { BiArrowBack } from "react-icons/bi";
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';  // Assuming you're using Axios to make API requests
+import axios from 'axios';
+import { io } from "socket.io-client"; // Import Socket.IO client
 
 const CreateBattle = () => {
     const [battleName, setBattleName] = useState('');
@@ -28,16 +28,25 @@ const CreateBattle = () => {
     const [numQuestions, setNumQuestions] = useState(5);
     const [timeLimit, setTimeLimit] = useState(30);
     const [difficulty, setDifficulty] = useState(1);
-
+    const [socket, setSocket] = useState(null);  // To handle the socket connection
 
     const navigate = useNavigate();
+    const creatorUsername = localStorage.getItem('username');
+
+    // Initialize Socket.IO client
+    useEffect(() => {
+        const newSocket = io('http://localhost:5000');  // Connect to your Socket.IO server
+        setSocket(newSocket);
+
+        return () => {
+            newSocket.disconnect();
+        };
+    }, []);
 
     const handleBackButton = () => {
         navigate('/battlepage');
-    }
+    };
 
-    const creatorUsername = localStorage.getItem('username');  
-    
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -46,34 +55,57 @@ const CreateBattle = () => {
             alert('Please fill out all fields correctly.');
             return;
         }
-
         // Battle creation logic (API request to backend)
         try {
             const response = await axios.post('http://localhost:5000/api/create_battle', {
-                battleName :battleName,
-                battleDescription :battleDescription,
-                numQuestions :numQuestions,
-                timeLimit :timeLimit,
-                difficulty :difficulty,
-                creatorUsername :creatorUsername,
+                battleName: battleName,
+                battleDescription: battleDescription,
+                numQuestions: numQuestions,
+                timeLimit: timeLimit,
+                difficulty: difficulty,
+                creatorUsername: creatorUsername,
             });
-            if (response.status === 201) {
-                alert('Battle created successfully!');
-                console.log(response.data.battle_id);
 
-                navigate(`/waiting-room/${response.data.battle_id}`);
+            if (response.status === 201) {
+                const battleId = response.data.battle_id;
+                alert('Battle created successfully!');
+
+                // Emit an event to join the waiting room using Socket.IO
+                if (socket) {
+                    socket.emit('join_waiting_room', {
+                        battle_id: battleId,
+                        username: creatorUsername
+                    });
+
+                    // Listen for the matchmaking started event
+                    socket.on('user_joined', () => {
+                        navigate(`/waiting-room/${battleId}`);
+                        // Navigate to the battle page once matchmaking starts
+                    });
+
+
+                    //jese hi creator join hoga
+                    // socket.on("waiting for opponent", ())
+
+                    // Listen for the matchmaking started event
+                    socket.on('matchmaking_started', () => {
+
+                        //timer start {tomorrow 5 min}
+                        // Navigate to the battle page once matchmak'ing starts
+                    });
+                }
+
             } else {
-                alert('hat bencho! Failed to create battle');
+                alert('Failed to create battle');
             }
         } catch (error) {
             console.error('Error creating battle:', error);
             alert('An error occurred while creating the battle.');
         }
-    }
+    };
 
     return (
         <div className="max-w-screen">
-
             <div className='flex h-[42vw]'>
                 <div className='w-[50%] h-full relative'>
                     <div onClick={handleBackButton} className='p-4 active:scale-105 rounded-full transition-all hover:ease-in duration-150 hover:bg-gray-100 text-[2vw] absolute'>
@@ -164,6 +196,6 @@ const CreateBattle = () => {
             </div>
         </div>
     );
-}
+};
 
 export default CreateBattle;

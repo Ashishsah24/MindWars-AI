@@ -9,8 +9,14 @@ import atexit
 from bson import ObjectId
 import uuid
 from threading import Timer
+from flask_socketio import SocketIO, emit, join_room
+
+
 app = Flask(__name__)
 CORS(app)
+
+socketio = SocketIO(app, cors_allowed_origins="*")
+
 
 # Your MongoDB URI
 app.config["MONGO_URI"] = "mongodb+srv://ashishsah11110112:CpbkElbRuE4efSNh@userauthcluster.fvhu1.mongodb.net/MindWarsAI"
@@ -149,6 +155,7 @@ def get_battles():
     for battle in battles:
         print(battle)
         battle_list.append({
+            'battleid':battle.get('battleid'),
             'username': battle.get('creator_username'),
             'title': battle.get('battleName'),
             'description': battle.get('battleDescription'),
@@ -160,23 +167,84 @@ def get_battles():
     return jsonify(battle_list), 200
 
 
-@app.route('/api/finish_battle/<battle_id>', methods=['POST'])
-def finish_battle(battle_id):
-    # Find the battle
-    battle = mongo.db.battles.find_one({'_id': ObjectId(battle_id)})
-    
+@app.route('/api/join_battle/<battle_id>', methods=['POST'])
+def join_battle(battle_id):
+    print(battle_id)
+    # Check if the battle exists
+    battle = mongo.db.battles.find_one({'battleid': battle_id})
     if not battle:
         return jsonify({"message": "Battle not found"}), 404
+    
+    # Mark the opponent in the battle
+    mongo.db.battles.update_one({'battleid': battle_id}, {'$set': {'opponent_id': request.json['username'], 'status': 'ready'}})
 
-    # Update the status to 'completed'
-    mongo.db.battles.update_one(
-        {'_id': ObjectId(battle_id)},
-        {'$set': {
-            'status': 'completed'
-        }}
-    )
+    return jsonify({"message": "Joined battle successfully"}), 200
 
-    return jsonify({"message": "Battle completed successfully"}), 200
+
+
+battles_in_progress = {}
+@socketio.on('join_waiting_room')
+def join_waiting_room(data):
+
+    print("*******LISTENING IN WAITING ROOM******")
+    battle_id = data['battle_id']
+    username = data['username']
+
+    # # Join the SocketIO room
+    join_room(battle_id)
+
+    # Initialize the battle entry if it doesn't exist
+    if battle_id not in battles_in_progress:
+        battles_in_progress[battle_id] = {'count': 0, 'users': []}
+
+    # Increment the count of users joining the battle
+    battles_in_progress[battle_id]['count'] += 1
+    battles_in_progress[battle_id]['users'].append(username)
+
+    print(f"User {username} joined battle {battle_id}")
+    print("Current battles in progress: ", battles_in_progress)
+
+    # Notify that a user has joined
+    socketio.emit('user_joined', {'battle_id': battle_id, 'username': username}, room=battle_id)
+
+    # Check if both opponents have joined
+    print('hello we reach if block')
+    if battles_in_progress[battle_id]['count'] == 2:
+        battle =  mongo.db.battles.find_one({'battleid': battle_id})
+        print("battles:", battle)
+        if battle:
+            print("*****YES WE ARE EMITTING STARTCOUNDOWN & MATMAKING STARTED")
+            # opponent_username = battle['opponent_id']  # Use the opponent_id to fetch username
+            # # Send opponent info to each user
+            # print("Emitting opponent info:", opponent_username)
+            # socketio.emit('opponent_info', {'opponent_username': opponent_username}, room=battle_id)
+
+            # Emit an event to both users to start the countdown
+            print("Emitting start_countdown:", {'battle_id': battle_id, 'countdown': 115})
+            socketio.emit('start_countdown', {'battle_id': battle_id, 'countdown': 115}, room=battle_id)
+            print("Emitting matchmaking_started:", {'battle_id': battle_id})
+            socketio.emit('matchmaking_started', {'battle_id': battle_id}, room=battle_id)
+
+            
+@socketio.on('get_opponent_info')
+def get_opponent_info(data):
+    battle_id = data['battle_id']
+
+    # Check if both users have joined
+    if battle_id in battles_in_progress and battles_in_progress[battle_id]['count'] == 2:
+        battle = mongo.db.battles.find_one({'battleid': battle_id})
+        if battle:
+            opponent_username = battle['opponent_id']  # Use opponent_id to fetch username
+            print("Sending opponent info:", opponent_username)
+            socketio.emit('opponent_info', {'opponent_username': opponent_username}, room=battle_id)
+            
+# @socketio.on('start_matchmaking')
+# def start_matchmaking(data):
+#     battle_id = data['battle_id']
+#     # Emit to both users that matchmaking has started
+#     socketio.emit('matchmaking_started', {'battle_id': battle_id}, room=battle_id)
+
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    socketio.run(app, debug=True)
+
