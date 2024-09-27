@@ -2,7 +2,7 @@
         import axios from 'axios';
         import { useAuth } from '@/AuthContext';
         import { useNavigate, useParams } from 'react-router-dom';
-        import Timer from '../Timer/Timer';
+        import Timer from '../timer/Timer';
         import Loading from '../loading/Loading';
 
         const QuizPage = () => {
