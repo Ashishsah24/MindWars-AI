@@ -77,7 +77,7 @@
                 };
 
                 try {
-                    await axios.post(`http://localhost:5000/api/questionattempted/`, questionDetails);
+                    await axios.post(`https://mindwarsai.onrender.com/api/questionattempted/`, questionDetails);
                 } catch (error) {
                     console.error('Error submitting answers:', error);
                 }
@@ -97,7 +97,7 @@
             const handleSubmitQuiz = async () => {
                 const timeTaken = (Date.now() - timeStarted) / 1000;  // Time in seconds
                 try {
-                    await axios.post(`http://localhost:5000/api/quiz/${quiz_id}/submit`, {
+                    await axios.post(`https://mindwarsai.onrender.com/api/quiz/${quiz_id}/submit`, {
                         username: username,
                         score: score,
                         time_taken: timeTaken
