@@ -58,7 +58,7 @@ const CreateBattle = () => {
 
         // Battle creation logic (API request to backend)
         try {
-            const response = await axios.post('http://localhost:5000/api/create_battle', {
+            const response = await axios.post('https://mindwarsai.onrender.com/api/create_battle', {
                 battleName :battleName,
                 battleDescription :battleDescription,
                 numQuestions :numQuestions,

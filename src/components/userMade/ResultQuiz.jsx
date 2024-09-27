@@ -34,7 +34,7 @@ const ResultQuiz = () => {
   useEffect(() => {
     const fetchResult = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/api/quiz/${quiz_id}/user_score`, {
+        const response = await axios.get(`https://mindwarsai.onrender.com/api/quiz/${quiz_id}/user_score`, {
           params: { username }
         });
         console.log(response.data);

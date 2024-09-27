@@ -23,7 +23,7 @@ const LeaderBoard = () => {
     const fetchLeaderboard = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/leaderboard/${quiz_id}`  // Include quiz_id in the API call
+          `https://mindwarsai.onrender.com/api/leaderboard/${quiz_id}`  // Include quiz_id in the API call
         );
         setLeaderboard(response.data);
       } catch (error) {

@@ -30,7 +30,7 @@ const App = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-        const response = await axios.post('http://localhost:5000/login', {
+        const response = await axios.post('https://mindwarsai.onrender.com/login', {
             identifier,
             password: passwordLogin,
         });
@@ -47,7 +47,7 @@ const App = () => {
   const handleSignup = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:5000/signup', {
+      const response = await axios.post('https://mindwarsai.onrender.com/signup', {
         username,
         email,
         password: passwordSignup,

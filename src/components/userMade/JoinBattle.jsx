@@ -50,7 +50,7 @@
         useEffect(() => {
             const fetchBattles = async () => {
                 try {
-                    const response = await axios.get('http://localhost:5000/api/battles');
+                    const response = await axios.get('https://mindwarsai.onrender.com/api/battles');
                     console.log(response.data)
                     setBattles(response.data); 
                 } catch (error) {
@@ -66,7 +66,7 @@
 
         const handleRefreshButton = async ()=>{
             try {
-                const response = await axios.get('http://localhost:5000/api/battles');
+                const response = await axios.get('https://mindwarsai.onrender.com/api/battles');
                 setBattles(response.data);
                 notify();
                 navigate('/joinbattle')
@@ -96,7 +96,7 @@
 
             try {
                 // Check if the user has already attempted the quiz
-                const response = await axios.get(`http://localhost:5000/api/quiz/${battleId}/attempted/${username}`);
+                const response = await axios.get(`https://mindwarsai.onrender.com/api/quiz/${battleId}/attempted/${username}`);
                 
                 if (response.data.attempted) {
                     notifyJoin();

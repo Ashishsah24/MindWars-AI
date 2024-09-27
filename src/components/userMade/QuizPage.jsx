@@ -31,7 +31,7 @@
             useEffect(() => {
                     const checkIfAttempted = async () => {
                         try {
-                            const response = await fetch(`http://localhost:5000//api/quiz/${quiz_id}/attempted/${username}`);
+                            const response = await fetch(`https://mindwarsai.onrender.com/api/quiz/${quiz_id}/attempted/${username}`);
                             const data = await response.json();
                             if (data.attempted) {
                                 setHasAttempted(true);
@@ -49,7 +49,7 @@
                     setLoading(true);
 
                     try {
-                        const response = await axios.get(`http://localhost:5000/api/quiz/${quiz_id}`);
+                        const response = await axios.get(`https://mindwarsai.onrender.com/api/quiz/${quiz_id}`);
                         setQuestions(response.data.questions);
                         const timeInSeconds = response.data.time_limit* 60; // Convert minutes to seconds
                         setTimerLimit(timeInSeconds);
