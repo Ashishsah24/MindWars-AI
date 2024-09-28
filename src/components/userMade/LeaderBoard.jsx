@@ -36,7 +36,7 @@ const LeaderBoard = () => {
 
   const handleRefreshButton = async () => {
     try {
-      const response = await axios.get(`http://localhost:5000/api/leaderboard/${quiz_id}`);
+      const response = await axios.get(`https://mindwarsai.onrender.com/api/leaderboard/${quiz_id}`);
       setLeaderboard(response.data);
     } catch (error) {
       console.error("Error fetching leaderboard:", error);

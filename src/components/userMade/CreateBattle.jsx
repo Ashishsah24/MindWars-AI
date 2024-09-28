@@ -96,24 +96,24 @@ const CreateBattle = () => {
                         <BiArrowBack />
                     </div>
                     <div className='h-full justify-center flex flex-col items-center'>
-                        <h2 className="leading-[5vw] flex flex-col justify-center items-center text-[5vw] w-full font-bold text-[#3565EC]">Create your <span className='text-yellow-500'>Contest Arena.</span></h2>
-                        <p className='text-[1.5vw] font-semibold'>Set up a quiz contest and challenge your friends!</p>
+                        <h2 className="leading-[5vw] flex flex-col justify-center items-center text-[5vw] w-full font-bold text-[#3565EC]">Create your <span className='text-yellow-500'>Battle Arena.</span></h2>
+                        <p className='text-[1.5vw] font-semibold'>Set up a quiz battle and challenge your friends!</p>
                     </div>
                 </div>
 
                 <div className='w-[50%] flex justify-center'>
                     <Card className='w-[80%] h-[40vw] border-none drop-shadow-none'>
                         <CardHeader>
-                            <CardTitle className='text-[2vw]'>Enter the following details for a quiz</CardTitle>
+                            <CardTitle className='text-[2vw]'>Enter the following details for a battle</CardTitle>
                             <CardDescription>Make sure to fill valid values</CardDescription>
                         </CardHeader>
                         <CardContent className=''>
                             <form onSubmit={handleSubmit} className='flex flex-col gap-[1vw]'>
                                 <div>
-                                    <Label htmlFor="battletitle" className='drop-shadow-sm'>Quiz Title</Label>
+                                    <Label htmlFor="battletitle" className='drop-shadow-sm'>Battle Title</Label>
                                     <Input 
                                         type="text" 
-                                        placeholder="Enter quiz Title"
+                                        placeholder="Enter Battle Title"
                                         value={battleName}
                                         onChange={(e) => setBattleName(e.target.value)} 
                                         required
@@ -121,9 +121,9 @@ const CreateBattle = () => {
                                 </div>
 
                                 <div>
-                                    <Label htmlFor="battledesc" className='drop-shadow-sm'>Quiz Description</Label>
+                                    <Label htmlFor="battledesc" className='drop-shadow-sm'>Battle Description</Label>
                                     <Textarea 
-                                        placeholder="Describe your quiz"
+                                        placeholder="Describe your battle"
                                         value={battleDescription}
                                         onChange={(e) => setBattleDescription(e.target.value)} 
                                         required
