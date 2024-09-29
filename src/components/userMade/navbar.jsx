@@ -16,8 +16,8 @@ const Navbar = ({ isAuthenticated, username, toggleLoginModal, handleLogout }) =
     return (
         <div className='flex justify-between items-center px-4 w-full bg-[#F2F3F3] h-[12vw] sm:h-[8vw] md:h-[6vw] lg:h-[5vw]'>
 <div className='flex items-center gap-3'>
-    <img onClick={handleImageClick} src="./images/mindwars.png" className='hover:cursor-pointer h-[10px] sm:h-[10px] md:h-[20px] lg:h-[30px]' alt="" />
-    <img onClick={handleImageClick} className='h-[10px] sm:h-[10px] md:h-[20px] lg:h-[30px] hover:cursor-pointer' src="https://see.fontimg.com/api/rf5/DGRW/MTNmYjZiN2U1NjRlNDM1MGE1OTgzOWRiZGFmMzgxNTIudHRm/TWluZFdhcnMgQWk/star-jedi.png?r=fs&h=81&w=1250&fg=0C0B0B&bg=FFFFFF&tb=1&s=65" alt="Star Wars fonts" />
+    <img onClick={handleImageClick} src="./images/mindwars.png" className='hover:cursor-pointer h-[17px] sm:h-[17px] md:h-[20px] lg:h-[30px]' alt="" />
+    <img onClick={handleImageClick} className='h-[13px] sm:h-[13px] md:h-[20px] lg:h-[30px] hover:cursor-pointer' src="https://see.fontimg.com/api/rf5/DGRW/MTNmYjZiN2U1NjRlNDM1MGE1OTgzOWRiZGFmMzgxNTIudHRm/TWluZFdhcnMgQWk/star-jedi.png?r=fs&h=81&w=1250&fg=0C0B0B&bg=FFFFFF&tb=1&s=65" alt="Star Wars fonts" />
 </div>
 
 

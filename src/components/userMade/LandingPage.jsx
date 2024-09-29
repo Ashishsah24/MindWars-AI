@@ -33,7 +33,7 @@ const LandingPage = ({ notify }) => {
   return (
     <>
       <div className='flex flex-col lg:flex-row items-center gap-6 lg:gap-12 py-10 px-4 lg:px-16 mx-auto w-full lg:w-11/12'>
-        <h1 className='text-blue-600 text-4xl lg:text-6xl font-extrabold leading-snug lg:leading-[4.5rem] w-full lg:w-2/3 text-center lg:text-left'>
+        <h1 className='text-blue-600 text-3xl lg:text-6xl font-extrabold leading-snug lg:leading-[4.5rem] w-full lg:w-2/3 text-center lg:text-left'>
           Join the ultimate AI Quiz Contest! <br />
           <span className='text-yellow-500'>Test your knowledge</span> and <br />
           <span className='text-yellow-500'>show off your skills</span> against others.
@@ -41,7 +41,7 @@ const LandingPage = ({ notify }) => {
         <img src="./images/battle.png" className='w-3/4 lg:w-1/3' alt="Quiz Contest" />
       </div>
 
-      <div className='flex flex-col lg:flex-row gap-4 lg:gap-8 justify-center w-full lg:w-11/12 mx-auto py-6 lg:py-12'>
+      <div className='flex flex-col lg:flex-row gap-4 lg:gap-8 justify-center w-[90%] lg:w-11/12 mx-auto py-6 lg:py-12'>
         <Button onClick={handleContestPage} className='rounded-full font-semibold px-5 lg:px-12 py-4 text-lg bg-orange-500 hover:bg-orange-600'>
           Start Contest
         </Button>
