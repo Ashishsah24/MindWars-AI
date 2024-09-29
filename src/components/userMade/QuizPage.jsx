@@ -23,7 +23,7 @@ const QuizPage = () => {
     useEffect(() => {
         const checkIfAttempted = async () => {
             try {
-                const response = await fetch(`http://localhost:5000/api/quiz/${quiz_id}/attempted/${username}`);
+                const response = await fetch(`https://mindwarsai.onrender.com/api/quiz/${quiz_id}/attempted/${username}`);
                 const data = await response.json();
                 if (data.attempted) {
                     setHasAttempted(true);
@@ -39,7 +39,7 @@ const QuizPage = () => {
         const fetchQuiz = async () => {
             setLoading(true);
             try {
-                const response = await axios.get(`http://localhost:5000/api/quiz/${quiz_id}`);
+                const response = await axios.get(`https://mindwarsai.onrender.com/api/quiz/${quiz_id}`);
                 setQuestions(response.data.questions);
                 const timeInSeconds = response.data.time_limit * 60; 
                 setTimerLimit(timeInSeconds);
@@ -73,7 +73,7 @@ const QuizPage = () => {
         }
 
         try {
-            await axios.post(`http://localhost:5000/api/questionattempted/`, questionDetails);
+            await axios.post(`https://mindwarsai.onrender.com/api/questionattempted/`, questionDetails);
         } catch (error) {
             console.error('Error submitting answers:', error);
         }
@@ -100,9 +100,9 @@ const QuizPage = () => {
 
         try {
             setLoading(true);
-            await axios.post(`http://localhost:5000/api/questionattempted/`, questionDetails);
+            await axios.post(`https://mindwarsai.onrender.com/api/questionattempted/`, questionDetails);
             const timeTaken = (Date.now() - timeStarted) / 1000; 
-            await axios.post(`http://localhost:5000/api/quiz/${quiz_id}/submit`, {
+            await axios.post(`https://mindwarsai.onrender.com/api/quiz/${quiz_id}/submit`, {
                 username: username,
                 score: finalScore,
                 time_taken: timeTaken,
