@@ -46,7 +46,7 @@ const BattlePage = () => {
         <div className="flex flex-col items-center font-bold text-[5vw] sm:text-[3vw] lg:text-[2vw]">
           <img
             onClick={handleCreateBattle}
-            className="h-[140px] lg:h-[300px] hover:drop-shadow-2xl active:scale-90 transition-all ease-in-out duration-200 scale-90 sm:scale-75"
+            className="h-[150px] lg:h-[300px] hover:drop-shadow-2xl active:scale-90 transition-all ease-in-out duration-200 scale-90 sm:scale-75"
             src="./images/createBattle.png"
             alt="Create Battle"
           />
@@ -57,7 +57,7 @@ const BattlePage = () => {
         <div className="flex flex-col items-center font-bold text-[5vw] sm:text-[3vw] lg:text-[2vw]">
           <img
             onClick={handleJoinBattle}
-            className="h-[140px] lg:h-[300px] hover:drop-shadow-2xl active:scale-90 transition-all ease-in-out duration-200 scale-90 sm:scale-75"
+            className="h-[150px] lg:h-[300px] hover:drop-shadow-2xl active:scale-90 transition-all ease-in-out duration-200 scale-90 sm:scale-75"
             src="./images/joinBattle.png"
             alt="Join Battle"
           />
