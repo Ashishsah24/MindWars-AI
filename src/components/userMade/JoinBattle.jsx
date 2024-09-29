@@ -157,11 +157,15 @@ const JoinBattle = () => {
                                                         </div>
                                                     </div>
                                                     <div className='flex gap-[2vw] md:gap-[1vw] font-bold flex-row'>
-                                                        <Avatar className='h-[10vw] md:h-[4vw] w-[10vw] md:w-[4vw]'>
-                                                            <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
-                                                            <AvatarFallback>CN</AvatarFallback>
-                                                        </Avatar>
-                                                        <div className='flex flex-col items-start'>
+                                                    <div className='flex flex-col gap-[0.7vw]'>
+                                                            <Avatar className='h-[10vw] md:h-[4vw] w-[10vw] md:w-[4vw]'>
+                                                                    <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+                                                                    <AvatarFallback>CN</AvatarFallback>
+                                                                </Avatar>
+                                                                <h2>@{battle.username}</h2>
+                                                            </div>
+       
+                                                        <div className='flex flex-col items-start text-start'>
                                                             <h2 className='text-[5vw] md:text-[2vw]'>{battle.title}</h2>
                                                             <h2 className='text-[4vw] md:text-[1.5vw]'>{battle.description}</h2>
                                                             <h2 className='text-[3vw] md:text-[1vw]'>No. of Questions: {battle.num_questions}</h2>
