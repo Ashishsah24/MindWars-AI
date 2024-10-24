@@ -10,17 +10,15 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import {
-    Avatar,
-    AvatarFallback,
-    AvatarImage,
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
 } from "@/components/ui/avatar";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/AuthContext";
 
-
-
-const LandingPage = ({notify}) => {
-  const {isAuthenticated} = useAuth();
+const LandingPage = ({ notify }) => {
+  const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
   const handleContestPage = () => {
@@ -34,22 +32,26 @@ const LandingPage = ({notify}) => {
 
   return (
     <>
-      <div className='flex items-center flex-row gap-[1.5vw] pt-[3vw] w-[90%] mx-auto'>
-        <h1 className='text-[#3565EC] w-[70%] text-[5vw] font-[900] leading-[5vw]'>
+      <div className='flex flex-col lg:flex-row items-center gap-6 lg:gap-12 py-10 px-4 lg:px-16 mx-auto w-full lg:w-11/12'>
+        <h1 className='text-blue-600 text-3xl lg:text-6xl font-extrabold leading-snug lg:leading-[4.5rem] w-full lg:w-2/3 text-center lg:text-left'>
           Join the ultimate AI Quiz Contest! <br />
           <span className='text-yellow-500'>Test your knowledge</span> and <br />
           <span className='text-yellow-500'>show off your skills</span> against others.
         </h1>
-        <img src="./images/battle.png" className='h-[70%] w-[25%]' alt="Quiz Contest" />
+        <img src="./images/battle.png" className='w-3/4 lg:w-1/3' alt="Quiz Contest" />
       </div>
 
-      <div className='w-[90%] pt-[2vw] mx-auto gap-[2vw] flex'>
-        <Button onClick={handleContestPage} className='rounded-full font-semibold px-[2vw] text-[1.5vw] py-[1.5vw] bg-[#F47F2F]'>Start Contest</Button>
+      <div className='flex flex-col lg:flex-row gap-4 lg:gap-8 justify-center w-[90%] lg:w-11/12 mx-auto py-6 lg:py-12'>
+        <Button onClick={handleContestPage} className='rounded-full font-semibold px-5 lg:px-12 py-4 text-lg bg-orange-500 hover:bg-orange-600'>
+          Start Contest
+        </Button>
         <Sheet>
           <SheetTrigger asChild>
-            <Button className='rounded-full font-semibold px-[2vw] text-[1.5vw] py-[1.5vw] bg-[#F47F2F]'>Learn More</Button>
+            <Button className='rounded-full font-semibold px-5 lg:px-12 py-4 text-lg bg-orange-500 hover:bg-orange-600'>
+              Learn More
+            </Button>
           </SheetTrigger>
-          <SheetContent className='w-[80vw]'>
+          <SheetContent className='w-full lg:w-4/5'>
             <SheetHeader>
               <SheetTitle>Learn More</SheetTitle>
               <SheetDescription>
@@ -65,67 +67,67 @@ const LandingPage = ({notify}) => {
         </Sheet>
       </div>
 
-      <div className='flex flex-col items-center mt-[11vw]'>
-        <h1 className="text-[#3565EC] font-bold text-[3vw]">Tired of <span className='text-yellow-500'>Traditional Quizzes?</span></h1>
-        <p className='text-[1.2vw]'>Join our AI-generated quiz contest, improve your knowledge, and compete against others in a fun and engaging way!</p>
+      <div className='text-center mt-16'>
+        <h2 className='text-blue-600 text-3xl font-bold'>
+          Tired of <span className='text-yellow-500'>Traditional Quizzes?</span>
+        </h2>
+        <p className='text-lg mt-4'>
+          Join our AI-generated quiz contest, improve your knowledge, and compete against others in a fun and engaging way!
+        </p>
       </div>
 
-      <div className="flex mt-[5vw] flex-row gap-[2.5vw] w-[90%] justify-center mx-auto max-w-screen h-[20vw]">
-        <div className="hover:scale-105 duration-100 transition-all ease-out w-[24%] h-[100%] text-white flex flex-col gap-2 justify-center p-[1vw] text-center items-center bg-[#3764EF] rounded-3xl">
-          <h2 className="font-bold text-[1.5vw]">Join a Competitive Quiz</h2>
-          <p className="text-[1vw]">Test your knowledge against participants and climb the ranks with unique, AI-generated questions.</p>
+      <div className='flex flex-col px-5 lg:flex-row gap-8 justify-center w-full lg:w-11/12 mx-auto mt-12'>
+        <div className='hover:scale-105 transition-transform bg-blue-600 text-white rounded-3xl p-6 lg:p-8 w-full lg:w-1/4 text-center'>
+          <h3 className='font-bold text-xl'>Join a Competitive Quiz</h3>
+          <p className='mt-2'>Test your knowledge against participants and climb the ranks with unique, AI-generated questions.</p>
         </div>
-        <div className="hover:scale-105 duration-100 transition-all ease-out w-[24%] h-[100%] text-white flex flex-col gap-2 justify-center p-[1vw] text-center bg-[#FE6376] rounded-3xl">
-          <h2 className="font-bold text-[1.5vw]">Analyze Your Performance</h2>
-          <p className="text-[1vw]">Receive detailed feedback on your answers and track your progress after every contest.</p>
+        <div className='hover:scale-105 transition-transform bg-pink-500 text-white rounded-3xl p-6 lg:p-8 w-full lg:w-1/4 text-center'>
+          <h3 className='font-bold text-xl'>Analyze Your Performance</h3>
+          <p className='mt-2'>Receive detailed feedback on your answers and track your progress after every contest.</p>
         </div>
-        <div className="hover:scale-105 duration-100 transition-all ease-out w-[24%] h-[100%] text-white flex flex-col gap-2 justify-center p-[1vw] text-center bg-[#01DBAB] rounded-3xl">
-          <h2 className="font-bold text-[1.5vw]">Personalized Learning Experience</h2>
-          <p className="text-[1vw]">Get tailored quiz recommendations based on your strengths and weaknesses.</p>
+        <div className='hover:scale-105 transition-transform bg-teal-500 text-white rounded-3xl p-6 lg:p-8 w-full lg:w-1/4 text-center'>
+          <h3 className='font-bold text-xl'>Personalized Learning Experience</h3>
+          <p className='mt-2'>Get tailored quiz recommendations based on your strengths and weaknesses.</p>
         </div>
       </div>
 
-      <div className="mt-[10vw] bg-[#F2F3F3] max-w-screen p-[3vw]">
-        <div className="w-[90%] mx-auto flex flex-row gap-[3vw] justify-center items-center">
-          <div className="flex flex-col gap-2 w-[40%]">
-            <div className="flex gap-2 items-center">
-              <Avatar className='h-[4vw] w-[4vw]'>
-                <AvatarImage src="./images/arun_avatar2.png" alt="@shadcn" />
-                <AvatarFallback>CN</AvatarFallback>
+      <div className='bg-gray-100 mt-16 py-10 px-6'>
+        <div className='flex flex-col lg:flex-row justify-center gap-8 w-full lg:w-11/12 mx-auto'>
+          <div className='flex flex-col gap-4 w-full lg:w-1/2'>
+            <div className='flex items-center gap-4'>
+              <Avatar className='h-16 w-16'>
+                <AvatarImage src="./images/arun_avatar2.png" alt="Arun" />
+                <AvatarFallback>AR</AvatarFallback>
               </Avatar>
-              <h2>Hey, This is Arun</h2>
+              <h2 className='font-bold text-lg'>Hey, This is Arun</h2>
             </div>
-            <p>
-              We're thrilled to introduce MindWars AI! This contest is all about pushing your limits and testing your knowledge against friends and others. Get ready for a fun and engaging experience with quizzes tailored to your interests!
-            </p>
+            <p>We're thrilled to introduce MindWars AI! This contest is all about pushing your limits and testing your knowledge against friends and others. Get ready for a fun and engaging experience with quizzes tailored to your interests!</p>
           </div>
 
-          <div className="flex flex-col gap-2 w-[40%]">
-            <div className="flex gap-2 items-center">
-              <Avatar className='h-[4vw] w-[4vw]'>
-                <AvatarImage src="./images/ashish_avatar2.png" alt="@shadcn" />
-                <AvatarFallback>CN</AvatarFallback>
+          <div className='flex flex-col gap-4 w-full lg:w-1/2'>
+            <div className='flex items-center gap-4'>
+              <Avatar className='h-16 w-16'>
+                <AvatarImage src="./images/ashish_avatar2.png" alt="Ashish" />
+                <AvatarFallback>AS</AvatarFallback>
               </Avatar>
-              <h2>It's me, Ashish here!</h2>
+              <h2 className='font-bold text-lg'>It's me, Ashish here!</h2>
             </div>
-            <p>
-              MindWars AI is for everyone who enjoys a friendly challenge. Our AI-driven quizzes make learning fun and competitive, allowing you to test your skills and gain valuable knowledge. Join us for an exciting journey of learning!
-            </p>
+            <p>MindWars AI is for everyone who enjoys a friendly challenge. Our AI-driven quizzes make learning fun and competitive, allowing you to test your skills and gain valuable knowledge. Join us for an exciting journey of learning!</p>
           </div>
         </div>
       </div>
 
-      <div className="mt-[5vw] max-w-screen h-[90]">
-        <div className="flex justify-center w-full flex-col">
-          <h2 className="text-[#3565EC] font-bold text-[3vw] text-center">Test Your Knowledge, <span className='text-yellow-500'>Challenge Your Friends!</span></h2>
-          <div className="flex items-center w-[80%]">
-            <img className="px-[3vw] scale-50 h-[30vw]" src="./images/desktop.png" alt="Desktop" />
-            <p>Experience the thrill of competition with MindWars AI, where you can challenge your friends and expand your knowledge through engaging, AI-generated quizzes. Whether you're looking to boost your skills or enjoy some friendly rivalry, our platform makes it easy to connect with others while enhancing your understanding. Gather your friends, embrace your curiosity, and let the quiz battles begin!</p>
-          </div>
+      <div className='flex flex-col hidden lg:contents lg:flex-row items-center justify-center gap-8 mt-16 w-full lg:w-11/12 mx-auto'>
+        <h2 className='lg:ml-[60px] lg:mt-[10px] text-blue-600 text-3xl font-bold text-center lg:text-left'>
+          Test Your Knowledge, <span className='text-yellow-500'>Challenge Your Friends!</span>
+        </h2>
+        <div className='flex items-center justify-center gap-8'>
+          <img className='w-full lg:w-1/2 h-auto' src="./images/desktop.png" alt="Desktop" />
+          <p className='text-lg'>Experience the thrill of competition with MindWars AI, where you can challenge your friends and expand your knowledge through engaging, AI-generated quizzes. Whether you're looking to boost your skills or enjoy some friendly rivalry, our platform makes it easy to connect with others while enhancing your understanding. Gather your friends, embrace your curiosity, and let the quiz battles begin!</p>
         </div>
       </div>
     </>
   );
-}
+};
 
 export default LandingPage;

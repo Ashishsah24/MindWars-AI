@@ -90,25 +90,33 @@ const CreateBattle = () => {
                 </div>
             )}
             
-            <div className='flex h-[43vw] my-[1vw]'>
-                <div className='w-[50%] h-full relative'>
-                    <div onClick={handleBackButton} className='p-4 active:scale-105 rounded-full transition-all hover:ease-in duration-150 hover:bg-gray-100 text-[2vw] absolute'>
+            <div className='flex flex-col lg:flex-row h-auto lg:h-[43vw] my-[1vw]'>
+                {/* Left Section */}
+                <div className='w-full lg:w-[50%] h-full relative'>
+                    <div onClick={handleBackButton} className='p-4 active:scale-105 rounded-full transition-all hover:ease-in duration-150 hover:bg-gray-100 text-[8vw] sm:text-[3vw] lg:text-[2vw] absolute left-[1vw] top-[1vw]'>
                         <BiArrowBack />
                     </div>
-                    <div className='h-full justify-center flex flex-col items-center'>
-                        <h2 className="leading-[5vw] flex flex-col justify-center items-center text-[5vw] w-full font-bold text-[#3565EC]">Create your <span className='text-yellow-500'>Quiz Contest.</span></h2>
-                        <p className='text-[1.5vw] font-semibold'>Set up a quiz contest and challenge your friends!</p>
+                    <div className='h-full justify-center flex flex-col items-center p-[5vw]'>
+                        <h2 className="leading-[8vw] pt-[30px] sm:leading-[5vw] flex flex-col justify-center items-center text-[8vw] sm:text-[5vw] lg:text-[4vw] w-full font-bold text-[#3565EC]">
+                            Create your <span className='text-yellow-500'>Quiz Contest.</span>
+                        </h2>
+                        <p className='text-[4vw] sm:text-[2vw] lg:text-[1.5vw] font-semibold text-center mt-[2vw]'>
+                            Set up a quiz contest and challenge your friends!
+                        </p>
                     </div>
                 </div>
 
-                <div className='w-[50%] flex justify-center'>
-                    <Card className='w-[80%] h-[40vw] border-none drop-shadow-none'>
+                {/* Right Section */}
+                <div className='w-full lg:w-[50%] flex justify-center p-[5vw] lg:p-0'>
+                    <Card className='w-full lg:w-[80%] h-auto border-none drop-shadow-none'>
                         <CardHeader>
-                            <CardTitle className='text-[2vw]'>Enter the following details for a Quiz Contest</CardTitle>
+                            <CardTitle className='text-[6vw] sm:text-[3vw] lg:text-[2vw]'>
+                                Enter the following details for a contest
+                            </CardTitle>
                             <CardDescription>Make sure to fill valid values</CardDescription>
                         </CardHeader>
                         <CardContent className=''>
-                            <form onSubmit={handleSubmit} className='flex flex-col gap-[1vw]'>
+                            <form onSubmit={handleSubmit} className='flex flex-col gap-[4vw] sm:gap-[2vw]'>
                                 <div>
                                     <Label htmlFor="battletitle" className='drop-shadow-sm'>Quiz Title</Label>
                                     <Input 
@@ -123,7 +131,7 @@ const CreateBattle = () => {
                                 <div>
                                     <Label htmlFor="battledesc" className='drop-shadow-sm'>Quiz Description</Label>
                                     <Textarea 
-                                        placeholder="Describe your quiz"
+                                        placeholder="Describe your Quiz"
                                         value={battleDescription}
                                         onChange={(e) => setBattleDescription(e.target.value)} 
                                         required
@@ -142,23 +150,6 @@ const CreateBattle = () => {
                                     />
                                 </div>
 
-                                {/* <div>
-                                    <Label htmlFor="difficulty" className='drop-shadow-sm'>Level of Difficulty</Label>
-                                    <Select
-                                        value={difficulty}  // Set the difficulty state
-                                        onValueChange={(value) => setDifficulty(value)}  // Update difficulty state
-                                        required
-                                    >
-                                        <SelectTrigger aria-label="Select difficulty">
-                                            <SelectValue placeholder="Select difficulty level" />
-                                        </SelectTrigger>
-                                        <SelectContent>
-                                            <SelectItem value="Beginner">Beginner</SelectItem>
-                                            <SelectItem value="Intermediate">Intermediate</SelectItem>
-                                            <SelectItem value="Advanced">Advanced</SelectItem>
-                                        </SelectContent>
-                                    </Select>
-                                </div> */}
 
                                 <div>
                                     <Label htmlFor="timelimit" className='drop-shadow-sm'>Set the time duration of quiz (in minutes)</Label>
@@ -184,7 +175,7 @@ const CreateBattle = () => {
                                     />
                                 </div>
 
-                                <Button type='submit'>Create Quiz Contest</Button>
+                                <Button type='submit' className="mt-4 sm:mt-2">Create Quiz Contest</Button>
                             </form>
                         </CardContent>
                     </Card>

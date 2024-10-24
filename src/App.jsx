@@ -46,6 +46,7 @@ const App = () => {
         setLoginValue(false);
     } catch (error) {
         alert(error.response?.data?.message || "An error occurred");
+        setLoading(false);
     }
   };
   
@@ -64,6 +65,7 @@ const App = () => {
       setLoginValue(false);
     } catch (error) {
       alert(error.response?.data?.message || "An error occurred");
+      setLoading(false);
     }
   };
 

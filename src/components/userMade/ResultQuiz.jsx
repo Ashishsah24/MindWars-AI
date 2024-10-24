@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import {
   Card,
   CardContent,
@@ -6,30 +6,28 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
+} from "@/components/ui/card";
 
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "@/components/ui/accordion"
-import axios from 'axios'
-import { useParams } from 'react-router-dom'
-
+} from "@/components/ui/accordion";
+import axios from 'axios';
+import { useParams } from 'react-router-dom';
+import { useAuth } from "@/AuthContext";
 import { marked } from 'marked'; // Import the marked library
 
 const ResultQuiz = () => {
-  
-  const {quiz_id, username} = useParams();
+  const { quiz_id, username } = useParams();
 
   const [quizResults, setQuizResults] = useState([]);
   const [score, setScore] = useState(null);
   const [timeTaken, setTimeTaken] = useState(null);
   const [noOfQuestions, setNoOfQuestions] = useState(null);
   const [feedBack, setFeedBack] = useState(null);
-
-
+  const { isAuthenticated } = useAuth();
 
   useEffect(() => {
     const fetchResult = async () => {
@@ -39,7 +37,7 @@ const ResultQuiz = () => {
         });
         console.log(response.data);
         const { questions, score, time_completion } = response.data;
-        setNoOfQuestions(response.data.noOfQuestions)
+        setNoOfQuestions(response.data.noOfQuestions);
         setFeedBack(response.data.feedback);
         setQuizResults(questions);
         setScore(score);
@@ -52,31 +50,30 @@ const ResultQuiz = () => {
     fetchResult();
   }, [quiz_id, username]);
 
-
   const createMarkup = (text) => {
     return text ? { __html: marked(text) } : { __html: '' }; // Return empty HTML if text is falsy
-};
+  };
 
   return (
-    <div className='max-w-screen'>
-      <div className='h-[40vw] w-full flex flex-row'>
-        <div className='w-[50%] h-full flex flex-col items-center justify-center text-center '>
-          <h2 className="leading-[5vw] flex flex-row gap-[1vw] justify-center items-center text-[5vw] font-bold text-[#3565EC]">
+    <div className='max-w-screen p-4 md:p-8'>
+      <div className='flex flex-col md:flex-row md:h-[40vw] w-full'>
+        <div className='w-full md:w-1/2 h-full flex flex-col items-center justify-center text-center mb-4 md:mb-0'>
+          <h2 className="leading-[5vw] flex flex-row gap-[1vw] justify-center items-center text-[8vw] lg:text-[4vw] font-bold text-[#3565EC]">
             Your Score: <span className='text-yellow-500 flex'>{score} / {noOfQuestions}</span>
           </h2>
-          <p className='text-[1.5vw] font-semibold w-[65%] text-center'>Time Taken⏰: {timeTaken} secs</p>
-          <p className='text-[0.9vw] font-semibold w-[65%] text-center'>Visit the quiz leaderboard page to see your rankings</p>
-          <p className='font-semibold w-[65%] text-center italic text-[0.7vw]'>Scroll down to see the correct answers</p>
+          <p className='text-[4vw] md:text-[1.5vw] font-semibold w-[80%] md:w-[65%] text-center'>Time Taken⏰: {timeTaken} secs</p>
+          <p className='text-[2vw] md:text-[0.9vw] font-semibold w-[80%] md:w-[65%] text-center'>Visit the quiz leaderboard page to see your rankings</p>
+          <p className='font-semibold w-[80%] md:w-[65%] text-center italic text-[1.5vw] md:text-[0.7vw]'>Scroll down to see the correct answers</p>
         </div>
-        <div className='w-[50%] flex items-center justify-center h-full'>
+        <div className='w-full md:w-1/2 flex items-center justify-center h-full'>
           <Card className="w-[90%] min-h-[90%]">
             <CardHeader>
-              <CardTitle className='text-[2vw] font-bold leading-[3vw]'>Personalized Feedback and Learning Paths</CardTitle>
-              <CardDescription className='italic text-[0.8vw]'>This is AI-generated feedback.</CardDescription>
+              <CardTitle className='text-[4vw] md:text-[2vw] font-bold leading-[3vw]'>Personalized Feedback and Learning Paths</CardTitle>
+              <CardDescription className='italic text-[2vw] md:text-[0.8vw]'>This is AI-generated feedback.</CardDescription>
             </CardHeader>
             <CardContent>
-              <Card className='min-h-[26.5vw] p-[1vw] w-full shadow-none'>
-              <div dangerouslySetInnerHTML={createMarkup(feedBack)} />
+              <Card className='min-h-[26.5vw] p-[1vw] w-full shadow-none overflow-scroll h-[70vw] lg:h-0'>
+                <div dangerouslySetInnerHTML={createMarkup(feedBack)} />
               </Card>
             </CardContent>
             <CardFooter className="flex justify-between"></CardFooter>
@@ -84,9 +81,9 @@ const ResultQuiz = () => {
         </div>
       </div>
 
-      <div className='my-[2vw] w-[90%] mx-auto'>
+      <div className='my-[2vw] w-full md:w-[90%] mx-auto'>
         <div>
-          <h2 className='font-bold text-[3vw] mb-[2vw] '>Quiz Solutions and Explanation</h2>
+          <h2 className='font-bold text-[5vw] md:text-[3vw] mb-[2vw]'>Quiz Solutions and Explanation</h2>
         </div>
         <div className='h-full w-full'>
           {quizResults.map((question, index) => (
@@ -97,7 +94,7 @@ const ResultQuiz = () => {
               }`}
             >
               <CardHeader>
-                <CardTitle className='text-[1.6vw] font-bold leading-[3vw] text-gray-800'>
+                <CardTitle className='text-[2.5vw] md:text-[1.6vw] font-bold leading-[3vw] text-gray-800'>
                   {`Question ${index + 1}: ${question.question}`}
                 </CardTitle>
               </CardHeader>
@@ -126,4 +123,4 @@ const ResultQuiz = () => {
   );
 }
 
-export default ResultQuiz
+export default ResultQuiz;
